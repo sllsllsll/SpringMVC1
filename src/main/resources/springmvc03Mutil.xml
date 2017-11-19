@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+               xmlns:aop="http://www.springframework.org/schema/aop"
+               xmlns:mvc="http://www.springframework.org/schema/mvc"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+<!--图片显示-->
+<!--<mvc:default-servlet-handler/>-->
+<mvc:resources  location="/img/" mapping="/img/**"></mvc:resources>
+
+
+ <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+      <property name="urlMap">
+          <map>
+              <entry key="/doFirst.do" value="MutilController"></entry>
+          </map>
+      </property>
+    </bean>
+    <!--视图解析器-->
+  <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>-->
+    <!--引入视图对象-->
+    <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location" value="classpath:viewjd.xml"></property>
+    </bean>
+    <bean id="beanNameResout" class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+
+    <bean id="paramMehod" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+        <property name="mappings">
+            <props>
+                <prop key="/first1.do">doFirst</prop>
+            </props>
+        </property>
+    </bean>
+
+<bean id="paramMehod2" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+    <property name="paramName" value="actionName"></property>
+</bean>
+
+
+<bean id="MutilController" class="cn.happy.springmvc03.MutilController">
+  <property name="methodNameResolver" ref="paramMehod2"></property>
+</bean>
+</beans>
